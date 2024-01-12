@@ -1,0 +1,81 @@
+<!-- Splash Screen: Displays when the application launches -->
+<div id="custom-overlay" class="splash-screen" [style.display]="splash ? 'flex': 'none'">
+  <div class="flb">
+    <div class="Aligner-item Aligner-item--top"></div>
+    <img src="assets/splash.png">
+    <div class="Aligner-item Aligner-item--bottom"></div>
+  </div>
+</div>
+
+<!-- Page header with search field -->
+<ion-header>
+  <ion-toolbar class="movie-toolbar">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-title class="movie-title">TRENDING MOVIES</ion-title>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-searchbar
+            class="movie-searchbar"
+            placeholder="Search movies..."
+            [(ngModel)]="searchTerm"
+            (keyup.enter)="onSearch()">
+          </ion-searchbar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar> 
+</ion-header>
+
+
+<!-- Main page content with movie listing -->
+<ion-content #content class="movie-content">
+  <!-- Movie list -->
+  <ion-list class="movie-list">
+    <ion-item button *ngFor="let item of displayedMovies" [routerLink]="[item.id]">
+      <ion-avatar slot="start">
+        <img [src]="imageBaseUrl + '/w92' + item.poster_path" loading="lazy">
+      </ion-avatar>      
+      <ion-label>
+        {{ item.title }}
+        <p>{{ item.release_date | date:'y' }} </p>        
+      </ion-label>
+      <ion-badge slot="end" [color]="item.vote_average > 5 ? 'success' : (item.vote_average === 0 ? 'warning' : 'danger')">
+        {{ item.vote_average | number: '1.2-2' }}
+      </ion-badge>      
+    </ion-item>
+  </ion-list>
+
+   <!-- Infinite Scroll for loading more movies -->
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+<!-- Footer toolbar with filters -->
+<ion-footer>
+  <ion-toolbar class="movie-filter-toolbar">
+    <div class="filter-container">
+      <div class="filter-label">
+        <ion-label>Filters</ion-label>
+      </div>
+      <div class="select-container">
+        <!-- Year selection -->
+        <ion-select [multiple]="true" placeholder="Select Year" (ionChange)="applyFilter('year', $event.detail.value)">
+          <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
+        </ion-select>
+        <!-- Genre selection -->
+        <ion-select [(ngModel)]="selectedGenres" [multiple]="true" placeholder="Select Genre" (ionChange)="onGenreChange()">
+          <ion-select-option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</ion-select-option>
+        </ion-select>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+

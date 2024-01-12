@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/movies" class="back-button"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-capitalize title">{{ movie?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main-content ion-padding">
+  <ion-card *ngIf="movie" class="movie-card">
+    <img [src]="imageBaseUrl + '/w400' + movie.poster_path" alt="{{ movie.title }}" class="movie-image">
+
+    <ion-card-header class="card-header">
+      <ion-card-title class="ion-text-capitalize card-title">{{ movie.title }}</ion-card-title>
+      <ion-card-subtitle class="card-subtitle">{{ movie.tagline }}</ion-card-subtitle>
+      <div class="genre-container">
+        <ion-chip *ngFor="let g of movie.genres" class="genre-chip">
+          <ion-label class="genre-label">{{ g.name }}</ion-label>
+        </ion-chip>
+      </div>
+    </ion-card-header>
+
+    <ion-card-content class="card-content">
+      <p class="movie-overview">{{ movie.overview }}</p>
+
+      <ion-list lines="full" class="details-list">
+        <ion-item class="release-date-item">
+          <ion-icon name="calendar-outline" slot="start" class="calendar-icon"></ion-icon>
+          <ion-label class="release-date-label">Release Date</ion-label>
+          <ion-note slot="end" class="release-date-note">{{ movie.release_date | date:'longDate' }}</ion-note>
+        </ion-item>
+
+        <ion-item class="budget-item">
+          <ion-icon name="cash-outline" slot="start" class="cash-icon"></ion-icon>
+          <ion-label class="budget-label">Budget</ion-label>
+          <ion-note slot="end" class="budget-note">{{ movie.budget | currency:'USD':'symbol-narrow' }}</ion-note>
+        </ion-item>
+
+        <ion-item class="production-companies-item">
+          <ion-icon name="business-outline" slot="start" class="business-icon"></ion-icon>
+          <ion-label class="production-companies-label">Production Companies</ion-label>
+          <div class="company-logos" slot="end">
+            <ng-container *ngFor="let company of movie.production_companies">
+              <img *ngIf="company.logo_path" [src]="imageBaseUrl + '/w92' + company.logo_path" class="company-logo">
+            </ng-container>
+          </div>
+        </ion-item>
+
+        <ion-item class="rating-item">
+          <ion-icon name="star-outline" slot="start" class="star-outline-icon"></ion-icon>
+          <ion-label class="rating-label">Rating</ion-label>
+          <div slot="end" class="rating-container">
+            <ng-container *ngIf="movie">
+              <ion-icon *ngFor="let i of [].constructor(getStarRating(movie.vote_average).full)" name="star" class="star-icon" color="warning"></ion-icon>
+              <ion-icon *ngIf="getStarRating(movie.vote_average).half" name="star-half" class="star-icon" color="warning"></ion-icon>
+              <ion-icon *ngFor="let i of [].constructor(getStarRating(movie.vote_average).empty)" name="star-outline" class="star-icon" color="medium"></ion-icon>
+            </ng-container>
+          </div>
+        </ion-item>       
+
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="footer-toolbar">
+    <ion-button expand="block" class="homepage-button" (click)="openHomepage()">
+      Open Homepage
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

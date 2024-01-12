@@ -1,0 +1,67 @@
+$primary-color: #000000;
+$secondary-color:#f96d00; 
+$background-color:#ffffff;
+$text-color: #000000;
+
+.header-toolbar {
+  background: $secondary-color;
+  color: $primary-color;
+}
+
+ion-toolbar.header-toolbar {
+  --background: $secondary-color;
+}
+
+.footer-toolbar{
+    background: $primary-color;
+}
+
+ion-toolbar.footer-toolbar{
+    --background: $primary-color;
+  }
+
+  .homepage-button{
+    background: $secondary-color;
+    color: $primary-color;
+    font-weight: bold; 
+ }
+
+  ion-button.homepage-button{
+    --background: $secondary-color;
+    --color: $primary-color;
+  }
+
+  .genre-chip {
+    background: $secondary-color; 
+    color: $text-color; 
+    font-weight: bold;
+  }
+
+  .movie-card {
+    background-color: $background-color; 
+    color: $text-color; 
+  }
+  
+  ion-list {
+    background: $background-color; 
+  }
+  
+  ion-item {
+    --background: $background-color; 
+    --color: $text-color; 
+  }
+  
+  ion-card-header,
+  ion-card-title,
+  ion-card-subtitle {
+    color: $text-color; 
+  }
+
+  .ios {
+    ion-back-button {
+      color: #000000; // Set the color to black
+    }
+  }
+  
+  
+  
